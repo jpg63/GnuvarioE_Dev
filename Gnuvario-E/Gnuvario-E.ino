@@ -311,9 +311,11 @@
 *                                    Correction gestion memoire json                                  *
 *                09/02/21            Ajout gestion écran 2.9'' V2 - 292                               *
 *                02/03/21            Correction ecran V2                                              *
-*                14/03/21            Maj librairie gxepd2, esp32-targz, esp32fota2                    *
+*                14/03/21            Maj librairie gxepd2, esp32-targz, esp32fota2                    *  
 *                                    Maj ESP32 v1.05                                                  *
-* 0.8 beta 6     30/03/21            Modification lib varioData                                       *                                                                                     *                                   
+* 0.8 beta 6     30/03/21            Modification lib varioData                                       *                                                                                     
+*                05/04/21            Modification altitude négative                                   *                                   
+*                11/04/21            Correction probleme de démmarage avec alti négative              *
 *******************************************************************************************************
 *                                                                                                     *
 *                                   Developpement a venir                                             *
@@ -1011,7 +1013,7 @@ void setup()
       compteur++;
 
       //    Messure d'altitude
-      firstAlti = varioHardwareManager.getAlti();
+      firstAlti = varioHardwareManager.firstAlti();  //getAlti();
     }
   }
 

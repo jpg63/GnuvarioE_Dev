@@ -66,11 +66,6 @@ void VarioPowerADC::init()
 #if defined(HAVE_VOLTAGE_DIVISOR)
     pinMode(VOLTAGE_DIVISOR_PIN, INPUT);
     analogReadResolution(12);
-
-#if defined(VOLTAGE_DIVISOR_DEBUG)
-    adc1_config_width(ADC_WIDTH_BIT_12);
-    adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_DB_11);
-#endif
 #endif
 }
 

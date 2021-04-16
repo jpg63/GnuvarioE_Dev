@@ -36,6 +36,7 @@
  *    1.0.7  27/09/20   Ajout test sur lecture des fichiers de config            *
  *    1.0.8  21/12/20   Mofig updateBeeper                                       *
  *    1.0.9  25/12/20   Modif getCap                                             *
+ *    1.0.10 11/04/21   Modif getAlti                                            *
  *                                                                               *
  *********************************************************************************
  */
@@ -447,14 +448,18 @@ void VarioData::update(void)
     SerialPort.println("Kalman Update");
 #endif //PROG_DEBUG
 
+		unsigned long myTime = millis();
 #ifdef ALTI_FILTER
-		kalmanvert.update(altiFiltered, accel, millis());
+		
+		kalmanvert.update(altiFiltered, accel, myTime);
 #else
-		kalmanvert.update(alti, accel, millis());
+		kalmanvert.update(alti, accel, myTime);
 #endif
 		
 		velocity 				= kalmanvert.getVelocity();
 		calibratedAlti 	= kalmanvert.getCalibratedPosition();
+		
+		if (calibratedAlti < 0) calibratedAlti = 0;
 
 #ifdef DATA_DEBUG
     SerialPort.println("VarioData Update");
@@ -1429,15 +1434,6 @@ void VarioData::updateVoltage(void) {
     //  if (maxVoltage < tmpVoltage) {maxVoltage = tmpVoltage;}
 
     /* update battery level */
-
-#if defined(VOLTAGE_DIVISOR_DEBUG)
-    int val = adc1_get_raw(ADC1_CHANNEL_7);
-
-    SerialPort.print("Tension : ");
-    SerialPort.println(val);
-    if (compteurBoucle == 5)
-      DUMPLOG(LOG_TYPE_DEBUG, VOLTAGE_DEBUG_LOG, val);
-#endif //VOLTAGE_DIVISOR_DEBUG
 
     long TmpVoltage = 0;
     for (int i = 0; i < 10; i++)

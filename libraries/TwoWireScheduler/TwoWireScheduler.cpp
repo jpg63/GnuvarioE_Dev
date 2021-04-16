@@ -31,6 +31,9 @@
 /*  1.4.2   06/10/20     Ajout void TWScheduler::disableAcquisition()                              */
 /*  1.4.3   09/10/20     Correction disableAcquisition                                             */
 /*  1.4.4   22/10/20     alti < 0 --> alti = 0                                                     */
+/*  1.4.5   06/04/21     Ajout computeAltitude2                                                    */
+/*                       Modification getalti                                                      */
+/*  1.4.6   11/04/21     correction SetBaseSeaPressure                                             */
 /*                                                                                                 */
 /***************************************************************************************************/
 
@@ -97,6 +100,7 @@ int8_t volatile TWScheduler::ms5611Step = 0;
 uint8_t volatile TWScheduler::ms5611Output[3*3];  //three ms5611 output measures
 uint8_t volatile TWScheduler::ms5611Count = TWO_WIRE_SCHEDULER_MS5611_SHIFT;
 SemaphoreHandle_t TWScheduler::ms5611Mutex;
+double TWScheduler::ms5611SavePressure;
 #endif
 #ifdef HAVE_ACCELEROMETER
 uint8_t volatile TWScheduler::checkOutput[2];
@@ -183,6 +187,8 @@ double TWScheduler::getAlti(void) {
   return alti;
 }
 
+double TWScheduler::getAlti2(void) {
+}
 
 void TWScheduler::getTempAlti(double& temp, double& alti) {
 
@@ -317,10 +323,18 @@ double TWScheduler::getAlti(void) {
   double temperature, pressure;
   ms5611.computeMeasures(&ms5611Values[0], &ms5611Values[3], temperature, pressure);
 
+	ms5611SavePressure = pressure;
+
   /* get corresponding alti */
   double alti = ms5611.computeAltitude(pressure);
 
-	if (alti < 0) alti = 0;
+//	if (alti < 0) alti = ms5611.computeAltitude2(pressure);
+
+	if (alti < 0) {
+		ms5611.SetBaseSeaPressure(1030);
+	  alti = 0;
+	}
+	
   return alti;
 }
 
@@ -340,9 +354,14 @@ void TWScheduler::getTempAlti(double& temp, double& alti) {
   double temperature, pressure;
   ms5611.computeMeasures(&ms5611Values[0], &ms5611Values[3], temperature, pressure);
 
+	ms5611SavePressure = pressure;
+	
   /* get corresponding alti */
   alti = ms5611.computeAltitude(pressure);
-	if (alti < 0) alti = 0;
+	
+/*	if (alti < 0) alti = ms5611.computeAltitude2(pressure);
+
+	if (alti < 0) alti = 0;*/
   temp = temperature;
 }
 #endif
