@@ -57,7 +57,6 @@
 class VarioHardwareManager
 {
 private:
-	VarioSpeaker varioSpeaker;
 	VarioImu varioImu;
 	VarioGps varioGps;
 #ifdef HAVE_BLUETOOTH
@@ -67,6 +66,7 @@ private:
 
 public:
 	VarioPower varioPower;
+	VarioSpeaker varioSpeaker;
 
 	VarioHardwareManager();
 	void init();

@@ -37,6 +37,7 @@
  *    1.0.8  21/12/20   Mofig updateBeeper                                       *
  *    1.0.9  25/12/20   Modif getCap                                             *
  *    1.0.10 11/04/21   Modif getAlti                                            *
+ *    1.0.11 12/04/21   Ajout gestion Mute_VarioBegin                            *
  *                                                                               *
  *********************************************************************************
  */
@@ -1090,10 +1091,26 @@ void VarioData::updateState(){
 #ifdef HAVE_SPEAKER
 					if (GnuSettings.ALARM_GPSFIX)
 					{
+#ifdef HAVE_SPEAKER
+						if (GnuSettings.MUTE_VARIOBEGIN)
+						{
+							varioHardwareManager.varioSpeaker.UnMute();
+						}
+#endif //HAVE_SPEAKER
+
+
 						//           toneAC(BEEP_FREQ);
 						beeper.generateTone(GnuSettings.BEEP_FREQ, 200);
 						//            delay(200);
 						//            toneAC(0);
+						
+#ifdef HAVE_SPEAKER
+						if (GnuSettings.MUTE_VARIOBEGIN)
+						{
+							varioHardwareManager.varioSpeaker.Mute();
+						}
+#endif //HAVE_SPEAKER
+						
 					}
 #endif //defined(HAVE_SPEAKER)
 
@@ -1277,6 +1294,13 @@ void VarioData::enableflightStartComponents(void)
 #endif //SDCARD_DEBUG
 
   variometerState = VARIOMETER_STATE_FLIGHT_STARTED;
+
+#ifdef HAVE_SPEAKER
+	if (GnuSettings.MUTE_VARIOBEGIN)
+	{
+		varioHardwareManager.varioSpeaker.UnMute();
+	}
+#endif //HAVE_SPEAKER
 
   if (!GnuSettings.NO_RECORD)
   {

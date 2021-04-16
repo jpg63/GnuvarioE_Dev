@@ -49,10 +49,10 @@
 //#define VARIOVERSION 290     //Version 2 avec ecran 2.90 paysage
 //#define VARIOVERSION 291       //Version 2 avec ecran 2.90 portrait
 //#define VARIOVERSION 292     //Version 2 avec ecran 2.90 V2 paysage     
-//#define VARIOVERSION 293     //Version 2 avec ecran 2.90 V2 portrait
+#define VARIOVERSION 293     //Version 2 avec ecran 2.90 V2 portrait
 //#define VARIOVERSION 354     //Version 3.1 avec ecran 1.54
 //#define VARIOVERSION 390     //Version 3 avec ecran 2.90 paysage
-#define VARIOVERSION 391     //Version 3 avec ecran 2.90 portrait
+//#define VARIOVERSION 391     //Version 3 avec ecran 2.90 portrait
 //#define VARIOVERSION 395     //Version 3.5 avec ecran 2.90 paysage
 //#define VARIOVERSION 396     //Version 3.5 avec ecran 2.90 portrait
 

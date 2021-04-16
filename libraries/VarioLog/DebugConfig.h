@@ -68,7 +68,7 @@
 //#define IMU_DEBUG			  //debug IMU
 //#define I2CDEV_SERIAL_DEBUG   //debug I2Cdev
 //#define DEBUG_SERIAL_NMEA_1
-#define SCREEN_DEBUG
+//#define SCREEN_DEBUG
 //#define SCREEN_DEBUG2
 //#define GPS_DEBUG
 //#define BUTTON_DEBUG
@@ -89,7 +89,7 @@
 //#define BEARING_DEBUG
 //#define TWOWIRESCH_DEBUG
 //#define POWER_DEBUG
-#define MEMORY_DEBUG
+//#define MEMORY_DEBUG
 
 #ifdef GPS_DEBUG
 #define SERIAL_NMEA_SERIAL_OUTPUT

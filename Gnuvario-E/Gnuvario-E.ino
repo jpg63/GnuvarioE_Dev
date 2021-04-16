@@ -316,6 +316,7 @@
 * 0.8 beta 6     30/03/21            Modification lib varioData                                       *                                                                                     
 *                05/04/21            Modification altitude négative                                   *                                   
 *                11/04/21            Correction probleme de démmarage avec alti négative              *
+*                12/04/21            Ajout Mute jusqu'au décollage                                    *
 *******************************************************************************************************
 *                                                                                                     *
 *                                   Developpement a venir                                             *
@@ -426,6 +427,8 @@
  *  - Ajout écran de charge                                             *
  *  - Transfert des vol sur paraglidinglogbook                          *
  *  - Nouvelles Pages Wifi avec gestion d'un carnet de vol              *
+ *  - Gestion nouvel écran pour TTGO                                    *
+ *  - Ajout Mute jusqu'au décollage                                     *
  *                                                                      *
  ************************************************************************/
 
@@ -771,7 +774,7 @@ void setup()
   SerialPort.println("VERSION : 1");
 #elif ((VARIOVERSION == 254) || (VARIOVERSION == 290) || (VARIOVERSION == 291) || (VARIOVERSION == 292) || (VARIOVERSION == 293)) 
   SerialPort.println("VERSION : 2");
-#elif ((VARIOVERSION == 390) || (VARIOVERSION == 391)) 
+#elif ((VARIOVERSION == 354) || (VARIOVERSION == 390) || (VARIOVERSION == 391)) 
   SerialPort.println("VERSION : 3");
 #else
   SerialPort.println("VERSION : XXX");
@@ -780,11 +783,11 @@ void setup()
   SerialPort.print("PCB VERSION : ");
   SerialPort.println(PCB_VERSION);
 
-#if (VARIOSCREEN_SIZE == 154)
+#if ((VARIOSCREEN_SIZE == 154) || (VARIOSCREEN_SIZE == 254) || (VARIOSCREEN_SIZE == 354))
   SerialPort.println("ECRAN : 1.54");
-#elif (VARIOSCREEN_SIZE == 290)
+#elif ((VARIOSCREEN_SIZE == 290) || (VARIOVERSION == 292) || (VARIOVERSION == 390))
   SerialPort.println("ECRAN : 2.90 PAYSAGE");
-#elif (VARIOSCREEN_SIZE == 291)
+#elif ((VARIOSCREEN_SIZE == 291) || (VARIOVERSION == 293) || (VARIOVERSION == 391))
   SerialPort.println("ECRAN : 2.90 PORTRAIT");
 #endif
 
