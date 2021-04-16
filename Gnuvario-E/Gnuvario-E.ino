@@ -7,7 +7,7 @@
 
 #define VERSION 0
 #define SUB_VERSION 8
-#define BETA_CODE 5
+#define BETA_CODE 6
 #define DEVNAME "JPG63/MICELPA/RATAMUSE"
 #define AUTHOR "J" //J=JPG63  P=PUNKDUMP  M=MICHELPA    R=RATAMUSE
 
@@ -312,6 +312,8 @@
 *                09/02/21            Ajout gestion écran 2.9'' V2 - 292                               *
 *                02/03/21            Correction ecran V2                                              *
 *                14/03/21            Maj librairie gxepd2, esp32-targz, esp32fota2                    *
+*                                    Maj ESP32 v1.05                                                  *
+* 0.8 beta 6     30/03/21            Modification lib varioData                                       *                                                                                     *                                   
 *******************************************************************************************************
 *                                                                                                     *
 *                                   Developpement a venir                                             *
@@ -332,6 +334,8 @@
 * AJOUT - Deep-Sleep charge batterie                                                                  *
 * BUG   - intergration - bip continu  - A tester                                                      *
 * BUG   - Modification des paramètres wifi                                                            *
+* BUG   - trame IGC incomplete                                                                        *
+* BUG   - Affichage ecran V2                                                                          *
 *                                                                                                     *
 * VX.X                                                                                                *
 * Paramètrage des écrans                                                                              *
@@ -733,6 +737,12 @@ void setup()
   delay(5000);
   TestSDCARD(true);
 #endif
+
+  /*********************************/
+  /*  Init VarioHardwareManager    */
+  /*********************************/
+
+  varioHardwareManager.init();
 
   /*****************************/
   /*  Init Alimentation        */

@@ -60,6 +60,7 @@ public:
     double getAlti();
     double getTemp();
     double getAccel();
+	int    getCap();
 };
 
 #endif //VARIO_IMU_H

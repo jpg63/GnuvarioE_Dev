@@ -25,6 +25,8 @@
  *                                                                               *
  *  version    Date     Description                                              *
  *    1.0    22/03/20                                                            *
+ *    1.0.1  09/06/20   Ajout GnuSettings.BLUETOOTH_SEND_CALIBRATED_ALTITUDE     *
+ *    1.0.2  25/12/20   Modif getCap                                             *
  *                                                                               *
  *********************************************************************************
  */
@@ -81,6 +83,8 @@ public:
 	double getAlti();
 	double getTemp();
 	double getAccel();
+  int 	 getCap();
+  int 	 getCapGps();
 
 	void testInactivity(double velocity);
 

@@ -33,6 +33,7 @@
 /*    1.0.7  06/10/19   Deplacement resolution d'ecran dans hardwareConfig.h     */
 /*    1.0.8  27/06/20   Ajoit gestion I2S                                        */
 /*    1.0.9  05/10/20   Ajout PCB V3                                             */
+/*    1.0.10 14/12/20   Ajout PCB V35                                            */
 /*                                                                               */
 /*********************************************************************************/
 
@@ -144,6 +145,8 @@ Fly stat        0xD0		26+2
 #define PCB_VERSION 2
 #elif ((VARIOVERSION == 390) || (VARIOVERSION == 391)) 
 #define PCB_VERSION 3
+#elif ((VARIOVERSION == 395) || (VARIOVERSION == 396)) 
+#define PCB_VERSION 35
 #else
 #define PCB_VERSION 0
 #endif
@@ -220,6 +223,26 @@ Fly stat        0xD0		26+2
 #define VOLTAGE_DIVISOR_VALUE 2  //100k et 100k
 #define VOLTAGE_DIVISOR_REF_VOLTAGE 4.2
 
+#if (PCB_VERSION == 35)
+	// PCB 35
+#define MAX_17XX
+#else
+#undef MAX_17XX
+#endif
+
+/*************************/
+/*         POWER         */
+/*************************/
+
+#if ((PCB_VERSION == 0) || (PCB_VERSION == 1))
+#define POWER_PIN 27
+#else
+#define POWER_PIN 12
+#endif
+#define POWER_PIN_STATE HIGH
+
+/* time needed to power on all the devices */
+#define VARIOMETER_POWER_ON_DELAY 2000
 /*************************/
 /*        GPS            */
 /*************************/
@@ -232,7 +255,7 @@ Fly stat        0xD0		26+2
 #define SERIAL_NMEA_RX_PIN 33
 #define SERIAL_NMEA_TX_PIN 34
 
-#elif (PCB_VERSION == 3)
+#elif ((PCB_VERSION == 3) || (PCB_VERSION == 35))
 	// PCB 3
 #define pinGpsRXD  (33)
 	
@@ -275,7 +298,7 @@ Fly stat        0xD0		26+2
 #define HAVE_AUDIO_AMPLI	
 //#define AUDIO_AMP_MODE_LOW					
 
-#elif (PCB_VERSION == 3)
+#elif ((PCB_VERSION == 3) || (PCB_VERSION == 35))
 	// PCB 3
 #define PIN_AUDIO_AMP_ENA     19			//Enabled ampli class D
 #define HAVE_AUDIO_AMPLI	
@@ -316,7 +339,7 @@ Fly stat        0xD0		26+2
 	// PCB 2
 #define VARIO_TW_SDA_PIN 27
 #define VARIO_TW_SCL_PIN 32
-#elif (PCB_VERSION == 3)
+#elif ((PCB_VERSION == 3) || (PCB_VERSION == 35))
 	// PCB 3
 #define VARIO_TW_SDA_PIN 27
 #define VARIO_TW_SCL_PIN 32
@@ -338,7 +361,7 @@ Fly stat        0xD0		26+2
 #define VARIO_SCL_PIN 32	
 #define VARIO_MPU_INT_PIN 26
 #define GPIO_MPU_INT GPIO_NUM_26
-#elif (PCB_VERSION == 3)
+#elif ((PCB_VERSION == 3) || (PCB_VERSION == 35))
 	// PCB 3
 #define VARIO_SDA_PIN 27
 #define VARIO_SCL_PIN 32	
@@ -349,23 +372,13 @@ Fly stat        0xD0		26+2
 #define VARIO_SCL_PIN 22
 #endif
 
-/*************************/
-/*         POWER         */
-/*************************/
+#define VARIO_W_FREQ 400000UL
 
-#if (PCB_VERSION == 2)
-	// PCB 2
-#define POWER_PIN 12
-#elif (PCB_VERSION == 3)
-	// PCB 3
-#define POWER_PIN 12
-#else
-#define POWER_PIN 27
-#endif
-#define POWER_PIN_STATE HIGH
+/*********************/
+/* IMU 9250 / BNO085 */
+/*********************/
 
-/* time needed to power on all the devices */
-#define VARIOMETER_POWER_ON_DELAY 2000
+#define IMU_ADR 0x4A
 
 /*****************************/
 /*         EEPROM            */

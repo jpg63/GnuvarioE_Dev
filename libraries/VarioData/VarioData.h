@@ -35,6 +35,7 @@
  *    1.0.6  30/07/20   Ajout gestion valeur maximum des données                 *
  *    1.0.7  27/09/20   Ajout test sur lecture des fichiers de config            *
  *    1.0.8  18/10/20   Ajout STATE_PAGE_CHARGE                                  *
+ *    1.0.9  25/12/20   Modif getCap                                             *
  *                                                                               *
  *********************************************************************************
  */
@@ -51,7 +52,9 @@
 #include <IntTW.h>
 #include <ms5611TW.h>
 #include <vertaccel.h>
+//#ifdef TWOWIRESCHEDULER
 #include <LightInvensense.h>
+//#endif
 #include <TwoWireScheduler.h>
 #include <sdcardHAL.h>
 //#include <GPSSentence.h>
@@ -179,6 +182,7 @@ private:
     double 	firstAlti; 
 		double 	velocity;				//KalmanVario
 		double 	alti;						//Alti baro
+		double  altiFiltered = 0;
 		double 	calibratedAlti;	//KalmanAlti
 		double 	temperature;
 		double 	accel;
