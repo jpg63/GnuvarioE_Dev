@@ -1431,7 +1431,7 @@ void loop()
     int tmpcap = varioData.getCap();
     if (tmpcap > 0)
     {
-      String bearingStr = nmeaParser.Bearing_to_Ordinal(tmpcap);
+      String bearingStr = nmeaParser.Bearing_to_Ordinal2c(tmpcap);
 #ifdef DATA_DEBUG
       SerialPort.print("Compas : ");
       SerialPort.print(tmpcap);

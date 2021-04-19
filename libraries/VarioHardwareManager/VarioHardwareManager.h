@@ -84,8 +84,6 @@ public:
 	double getAlti();
 	double getTemp();
 	double getAccel();
-  int 	 getCap();
-  int 	 getCapGps();
 
 	void testInactivity(double velocity);
 

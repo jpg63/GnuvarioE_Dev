@@ -141,31 +141,4 @@ bool VarioGps::update(Kalmanvert kalmanvert, bool *lastSentence)
 	return false;
 }
 
-
-// *********************
-int VarioGps::getCap(void)
-// *********************
-{
-	int Tmpbearing = -1;
-
-	if (nmeaParser.haveBearing())
-	{
-
-		Tmpbearing = nmeaParser.getBearing();
-					
-#ifdef DATA_DEBUG
-		SerialPort.print("Compas GPS : ");
-		SerialPort.println(Tmpbearing);
-#endif //DATA_DEBUG
-//      DUMPLOG(LOG_TYPE_DEBUG, DATA_DEBUG_LOG, bearing);
-	} else {
-#ifdef DATA_DEBUG
-		SerialPort.println("Erreur Cap GPS");
-#endif //DATA_DEBUG
-	}
-	
-	return Tmpbearing;
-}	
-
-
 #endif //HAVE_GPS

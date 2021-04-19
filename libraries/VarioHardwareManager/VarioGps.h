@@ -46,7 +46,6 @@ public:
  //   VarioAlim();
     void init();
 		bool update(Kalmanvert kalmanvert, bool *lastSentence);
-		int  getCap(void);
 };
 
 #endif //HAVE_GPS
