@@ -36,7 +36,7 @@
 #define VARIO_POWER_H
 
 #include "VarioPower_ADC.h"
-#include "VarioPower_MAX17XX.h"
+#include "VarioPower_Max17XX.h"
 
 class VarioPower
 {
