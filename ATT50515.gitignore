@@ -1,0 +1,6 @@
+.pio
+.vscode
+*.bak
+*.old
+logFile.txt
+stackTrace.txt
