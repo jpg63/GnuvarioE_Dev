@@ -237,26 +237,31 @@ bool VarioWifi::checkDbVersion()
         entry = dir.openNextFile(FILE_READ);
         if (!entry)
         {
-            TRACE();
             break;
         }
 
-        TRACE();
         String tmpFullName = entry.name();
         String version = tmpFullName.substring(tmpFullName.lastIndexOf("/") + 1);
         version = version.substring(0, version.lastIndexOf("."));
+        
+        #ifdef MEMORY_DEBUG
         Serial.println("avant migration");
         Serial.println(ESP.getFreeHeap());
+        #endif
+
         varioSqlFlight.executeMigration(version, entry.readString());
+        
+        #ifdef MEMORY_DEBUG
         Serial.println("apres migration");
         Serial.println(ESP.getFreeHeap());
+        #endif
+
 #ifdef WIFI_DEBUG
         SerialPort.println(version);
 #endif
     }
 
     dir.close();
-    TRACE();
     return true;
 }
 
@@ -386,7 +391,8 @@ void VarioWifi::startWebServer()
         varioWebHandler.handleFileUpload);
 
     // sauvegarde du contenu du fichier wifi
-    server.on("/wifi", HTTP_POST, [](AsyncWebServerRequest *request) {
+    server.on(
+        "/wifi", HTTP_POST, [](AsyncWebServerRequest *request) {
             // le reponse est envoyé par le handler sur le body
         },
         NULL, varioWebHandler.handleSaveWifi);

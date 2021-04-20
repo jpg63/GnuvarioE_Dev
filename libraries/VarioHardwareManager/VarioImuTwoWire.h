@@ -56,15 +56,12 @@ public:
   double getAlti();
   double getTemp();
   double getAccel();
-  int    getCap();
 
 private:
   double Alti;
   double Temp;
   double Accel;
 	int	   CompteurAccel = 0;
-	float  constrainAngle360(float dta);
-
 };
 
 #endif //TWOWIRESCHEDULER

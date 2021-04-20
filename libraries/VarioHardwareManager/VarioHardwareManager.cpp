@@ -175,21 +175,6 @@ double VarioHardwareManager::getAccel()
   return varioImu.getAccel();
 }
 
-//**********************************
-int VarioHardwareManager::getCapGps()
-//**********************************
-{
-	TRACE();
-  return varioGps.getCap();
-}
-
-//**********************************
-int VarioHardwareManager::getCap()
-//**********************************
-{
-  return varioImu.getCap();
-}
-
 //***********************************
 double VarioHardwareManager::firstAlti(void)
 //***********************************

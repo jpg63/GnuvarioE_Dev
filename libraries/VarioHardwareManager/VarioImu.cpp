@@ -135,10 +135,3 @@ double VarioImu::getAccel()
   //*******************************
   return this->imu->getAccel();
 }
-
-//*******************************
-int VarioImu::getCap()
-{
-  //*******************************
-  return this->imu->getCap();
-}
