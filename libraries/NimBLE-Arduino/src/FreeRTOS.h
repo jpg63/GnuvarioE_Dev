@@ -29,6 +29,9 @@ public:
 
     static uint32_t getTimeSinceStart();
 
+/**
+ * @brief A binary semaphore class that operates like a mutex, it is already given when constructed.
+ */
     class Semaphore {
     public:
         Semaphore(std::string owner = "<Unknown>");
@@ -42,6 +45,10 @@ public:
         std::string toString();
         bool        timedWait(std::string owner = "<Unknown>", uint32_t timeoutMs = portMAX_DELAY);
         uint32_t    wait(std::string owner = "<Unknown>");
+        /**
+         * @brief Get the value of the semaphore.
+         * @return The value stored if the semaphore was given with give(value);
+         */
         uint32_t    value(){ return m_value; };
 
     private:
@@ -57,12 +64,16 @@ public:
 
 
 /**
- * @brief Ringbuffer.
+ * @brief A wrapper class for a freeRTOS ringbuffer.
  */
 class Ringbuffer {
 public:
 #ifdef ESP_IDF_VERSION //Quick hack to detect if using IDF version that replaced ringbuf_type_t
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 0, 0)
     Ringbuffer(size_t length, RingbufferType_t type = RINGBUF_TYPE_NOSPLIT);
+#else
+    Ringbuffer(size_t length, ringbuf_type_t type = RINGBUF_TYPE_NOSPLIT);
+#endif
 #else
     Ringbuffer(size_t length, ringbuf_type_t type = RINGBUF_TYPE_NOSPLIT);
 #endif
