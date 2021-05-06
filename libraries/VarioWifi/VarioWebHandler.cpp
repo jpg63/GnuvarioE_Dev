@@ -188,7 +188,6 @@ void VarioWebHandler::printDirectoryRecurse(AsyncResponseStream *response, Strin
         File entry;
         if (!(entry = dir.openNextFile(FILE_READ)))
         {
-            // TRACE();
             break;
         }
         String tmpName = entry.name();
@@ -527,17 +526,17 @@ void VarioWebHandler::handleSaveWifi(AsyncWebServerRequest *request, uint8_t *da
 
     if (!index)
     {
-			
+
 #ifdef WIFI_DEBUG
-				SerialPort.println("handleSaveParams - Backup");
+        SerialPort.println("handleSaveParams - Backup");
 #endif
-			
+
         backupFile(path, pathBak);
         if (!(wifiParamFile = SDHAL_SD.open(path.c_str(), FILE_WRITE)))
         {
 
 #ifdef WIFI_DEBUG
-						SerialPort.println("Erreur impossible d'ouvrir wifi.cfg");
+            SerialPort.println("Erreur impossible d'ouvrir wifi.cfg");
 #endif
 
             request->send(500, "text/plain", "NO FILE");
@@ -546,7 +545,7 @@ void VarioWebHandler::handleSaveWifi(AsyncWebServerRequest *request, uint8_t *da
     }
 
 #ifdef WIFI_DEBUG
-	  SerialPort.println("Save config wifi");
+    SerialPort.println("Save config wifi");
 #endif
 
     wifiParamFile.write(data, len);
@@ -725,6 +724,7 @@ AsyncWebServerResponse *VarioWebHandler::handleGetFlights(AsyncWebServerRequest 
 {
     int16_t offset;
     int16_t limit;
+    String parcel;
 
     if (request->hasParam("offset"))
     {
@@ -746,7 +746,24 @@ AsyncWebServerResponse *VarioWebHandler::handleGetFlights(AsyncWebServerRequest 
         limit = 0;
     }
 
-    varioSqlFlightHelper.init(limit, offset);
+    if (request->hasParam("parcel"))
+    {
+        AsyncWebParameter *p = request->getParam("parcel");
+        parcel = String(p->value());
+    }
+    else
+    {
+        parcel = "";
+    }
+
+    if (parcel == "")
+    {
+        varioSqlFlightHelper.init(limit, offset);
+    }
+    else
+    {
+        varioSqlFlightHelper.init(parcel);
+    }
 
     AsyncWebServerResponse *response = request->beginChunkedResponse("application/json", [](uint8_t *buffer, size_t maxLen, size_t index) -> size_t {
         //Write up to "maxLen" bytes into "buffer" and return the amount written.
@@ -977,11 +994,11 @@ void VarioWebHandler::handleSetSite(AsyncWebServerRequest *request, uint8_t *dat
 
 #ifdef WIFI_DEBUG
         SerialPort.println("Update Site");
-				SerialPort.print("ID : ");
+        SerialPort.print("ID : ");
         SerialPort.println(id);
-				SerialPort.print("CONTENT : ");
+        SerialPort.print("CONTENT : ");
         SerialPort.println(content);
-				
+
 #endif
         varioSqlFlight.updateSite(id, content);
     }
@@ -990,7 +1007,7 @@ void VarioWebHandler::handleSetSite(AsyncWebServerRequest *request, uint8_t *dat
 
 #ifdef WIFI_DEBUG
         SerialPort.println("Insert Site");
-				SerialPort.print("CONTENT : ");
+        SerialPort.print("CONTENT : ");
         SerialPort.println(content);
 #endif
 
@@ -1110,9 +1127,9 @@ igcdata VarioWebHandler::jsonToIgcdata(String data)
 {
     igcdata myIgcData;
 
-		GnuSettings.doc.clear();
+    GnuSettings.doc.clear();
 
-//    DynamicJsonDocument doc(1024);
+    //    DynamicJsonDocument doc(1024);
     DeserializationError err = deserializeJson(GnuSettings.doc, data);
     if (err)
     {
@@ -1194,4 +1211,58 @@ igcdata VarioWebHandler::jsonToIgcdata(String data)
     }
 
     return myIgcData;
+}
+
+//************************************************************
+AsyncWebServerResponse *VarioWebHandler::getFlightsShort(AsyncWebServerRequest *request)
+//************************************************************
+{
+
+    VarioSqlFlight varioSqlFlight;
+
+    String mode;
+    String parcel;
+    bool error = false;
+
+    if (request->hasParam("mode"))
+    {
+        AsyncWebParameter *p = request->getParam("mode");
+        mode = p->value().c_str();
+    }
+    else
+    {
+        error = true;
+    }
+
+    if (request->hasParam("parcel"))
+    {
+        AsyncWebParameter *p = request->getParam("parcel");
+        parcel = p->value().c_str();
+    }
+    else
+    {
+        if (mode == "Y")
+        {
+            parcel = "";
+        }
+        else
+        {
+            error = true;
+        }
+    }
+
+    if (error)
+    {
+        AsyncWebServerResponse *responseError;
+        responseError = request->beginResponse(500, "text/plain", "BAD ARGS");
+
+        return responseError;
+    }
+
+    AsyncResponseStream *response;
+    response = request->beginResponseStream("application/json");
+
+    response->print(varioSqlFlight.getFlightsShort(mode, parcel));
+
+    return response;
 }
