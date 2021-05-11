@@ -1386,7 +1386,7 @@ String VarioSqlFlight::getFlightsShort(String mode, String parcel)
 
     String output = "";
     DynamicJsonDocument doc(4096);
-
+    int step_res;
     int rc;
     sqlite3_stmt *res;
     const char *tail;
@@ -1429,11 +1429,13 @@ String VarioSqlFlight::getFlightsShort(String mode, String parcel)
 
     if (rc != SQLITE_OK)
     {
+#ifdef SQL_DEBUG
+        SerialPort.println("getFlightsShort: query error getFlightsShort");
+#endif //SQL_DEBUG
         closeDb();
         return output;
-    }
-
-    while (sqlite3_step(res) == SQLITE_ROW)
+    };
+    while ((step_res = sqlite3_step(res)) == SQLITE_ROW)
     {
         JsonObject obj1 = doc.createNestedObject();
         obj1["nf"] = sqlite3_column_int(res, 0);
@@ -1441,6 +1443,27 @@ String VarioSqlFlight::getFlightsShort(String mode, String parcel)
         obj1["du"] = String((char *)sqlite3_column_text(res, 1));
         obj1["gr"] = String((char *)sqlite3_column_text(res, 2));
     }
+
+    if (step_res == SQLITE_ERROR)
+    {
+#ifdef SQL_DEBUG
+        Serial.println("Error executing query ");
+#endif //SQL_DEBUG
+
+        sqlite3_clear_bindings(res);
+        sqlite3_finalize(res);
+        closeDb();
+
+        return output;
+    }
+    else
+    {
+#ifdef SQL_DEBUG
+        Serial.print("Step res:");
+        Serial.println(step_res);
+#endif //SQL_DEBUG
+    }
+
     serializeJson(doc, output);
     sqlite3_finalize(res);
 
