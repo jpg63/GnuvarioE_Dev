@@ -24,7 +24,7 @@
 				"STAT": "Statistics",
 				"DATE": "Date",
 				"HEURE":"Time",
-				"DUREE": "F. time",
+				"DUREE": "Flight time",
 				"VITESSE": "Speed",
 				"CONNECT": "Connection",
 				"CONNECTA": "Connected to ",
@@ -36,5 +36,9 @@
 				"CHARGE": "in charge",
 				"CHARGER": "loaded",
 				"BATTERIE": "Battery"
+		},
+		"stat": {
+					"DUREE": "Flight T",
+					"SPEED": "Speed"
 		}
 }

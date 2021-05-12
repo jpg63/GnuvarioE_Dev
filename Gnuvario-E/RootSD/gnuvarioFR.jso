@@ -36,5 +36,9 @@
 				"CHARGE": "en charge",
 				"CHARGER": "chargee",
 				"BATTERIE": "Batterie"
+		},
+		"stat": {
+					"DUREE": "Duree",
+					"SPEED": "Vitesse"
 		}
 }
