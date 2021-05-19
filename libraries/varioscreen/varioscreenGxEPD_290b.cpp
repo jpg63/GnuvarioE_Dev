@@ -31,17 +31,17 @@
  *    1.0.2  06/10/19   Mise à jour ratamuse                                     *
  *    1.0.3  13/10/19   Integration au GnuVario                                  *
  *                      Ajout wind                                               *
- *    1.0.4  16/11/19   Modif updateScreen										 									 *    
- *		1.0.5	 11/01/20		Modif ScreenViewPage							 											 *
+ *    1.0.4  16/11/19   Modif updateScreen										 *    
+ *		1.0.5	 11/01/20		Modif ScreenViewPage							 *
  *                      VARIOSCREEN_SIZE == 290                                  *
- *    1.0.6  17/01/20   Desactivation effacement ligne 1534						 					 *
+ *    1.0.6  17/01/20   Desactivation effacement ligne 1534						 *
  *    1.0.7  18/01/20   Modif  ScreenViewMessage                                 *
  *    1.0.8  28/01/20   Modification écran 1 - ajout info gps                    *
  *    1.0.9  03/02/20   changement de nom passage de 29 à 290                    *
  *    1.0.10 09/02/20   Modif écran 1 - font normal / coordonné GPS en degrés    *
  *    1.0.11 17/02/20   Ajout 2.90 et 2.91                                       *
  *                      Ajout FONTLARGE / FONTNORMAL                             *
- *    1.0.11 25/02/20   Ajout ScreenBackground									 								 *	
+ *    1.0.11 25/02/20   Ajout ScreenBackground									 *	
  *    1.0.12 04/03/20   Réorganisation de l'affichage des variable               *  
  *    1.0.13 04/03/20   Ajout affichage alti agl                                 *
  *    1.0.14 07/03/20   Correction xSemaphore                                    *
@@ -51,14 +51,14 @@
  *    1.1.1  10/05/20   Correction affichage screenTime (:/h)                    *
  *    1.1.2  11/05/20   Effacement zones multi                                   *
  *    1.1.3  17/05/20   Ajout position titre avac setPositionTitle               *
- *		1.1.4  23/05/20   Passage vario en -XX.X								 									 * 								 
- *		1.1.5  23/05/20   Passage vario en -XX.X								 								   *								 
+ *		1.1.4  23/05/20   Passage vario en -XX.X								 * 								 
+ *		1.1.5  23/05/20   Passage vario en -XX.X								 *								 
  *    1.1.6  27/07/20   Affichage de la batterie au démarrage                    *
- *    1.1.7  19/10/20   Ajout ScreenViewBattery(boolean clear)					 				 *
- *    1.1.8 19/12/20    Modification affichage des titres P. FRANCIA  			 	   *
+ *    1.1.7  19/10/20   Ajout ScreenViewBattery(boolean clear)					 *
+ *    1.1.8 19/12/20    Modification affichage des titres P. FRANCIA  			 *
  *    1.1.9  10/02/20   Compatibilité écran 291 et 293                           *
  *                      Compatibilité écran 290 et 292                           *
- *																			     																		 *
+ *    1.2.12 13/05/21   Compatibilité écran GDEW029M06 seulement                 *																		     																		 *
  *********************************************************************************/
  
  /*

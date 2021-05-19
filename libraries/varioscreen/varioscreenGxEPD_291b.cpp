@@ -59,8 +59,8 @@
  *    1.1.8  19/10/20   Ajout ScreenViewBattery(boolean clear)                   *
  *    1.1.9  26/10/20   Correction Aleksandr Stroganov <a.stroganov@me.com>      *
  *    1.1.10 19/12/20   Modification affichage des titres P. FRANCIA             *
- *    1.2.11 10/02/20   Compatibilité écran 291 et 293                           *
- *                                                                               *
+ *    1.2.11 10/02/21   Compatibilité écran 291 et 293                           *
+ *    1.2.12 13/05/21   Compatibilité écran GDEW029M06 seulement                 *
  *********************************************************************************/
 
 /*
@@ -389,6 +389,7 @@ void VarioScreen::createScreenObjects(void)
 //****************************************************************************************************************************
 void VarioScreen::createScreenObjectsPage0(void)
 {
+	
 	//****************************************************************************************************************************
 	altiDigit = new ScreenDigit(VARIOSCREEN_ALTI_ANCHOR_X, VARIOSCREEN_ALTI_ANCHOR_Y, 4, 0, false, false, ALIGNRIGHT, true, DISPLAY_OBJECT_ALTI, TAILLE_FONT, MAX_CAR_TITRE_ALTI);
 	altiDigit->setPositionTitle(VARIOSCREEN_ALTI_TITLE_X, VARIOSCREEN_ALTI_TITLE_Y);
@@ -968,7 +969,8 @@ void VarioScreen::ScreenViewPage(int8_t page, boolean clear, boolean refresh)
 
 	if (clear)
 	{
-		display.setFullWindow();
+		//display.init(0);
+	    display.setFullWindow();
 		display.clearScreen(ColorScreen);
 		display.fillScreen(ColorScreen);
 	}
@@ -976,9 +978,18 @@ void VarioScreen::ScreenViewPage(int8_t page, boolean clear, boolean refresh)
 #ifdef SCREEN_DEBUG
 	SerialPort.println("setTextColor");
 #endif //SCREEN_DEBUG
+
+#if (VARIOSCREEN_SIZE == 293)
+    display.init(0);	
 	display.clearScreen(ColorScreen);
 	display.fillScreen(ColorScreen);
 	display.setTextColor(GxEPD_BLACK); //display.setTextColor(GxEPD_BLACK);
+#else
+    //display.init(0);
+    display.clearScreen(ColorScreen);
+	display.fillScreen(ColorScreen);
+	display.setTextColor(GxEPD_BLACK); //display.setTextColor(GxEPD_BLACK);
+#endif	
 
 #ifdef SCREEN_DEBUG
 	SerialPort.println("update");
@@ -1088,10 +1099,16 @@ void VarioScreen::ScreenViewStat(void)
 {
 	if (xSemaphoreTake(screenMutex, portMAX_DELAY) == pdTRUE)
 	{
+		#if (VARIOSCREEN_SIZE == 293)
+		display.init(0);
 		Serial.println("ScreenViewStat");
 		display.setFullWindow();
 		display.fillScreen(ColorScreen);
-
+		#else
+        Serial.println("ScreenViewStat");
+		display.setFullWindow();
+		display.fillScreen(ColorScreen);
+		#endif
 		ScreenViewStatPage(0);
 		xSemaphoreGive(screenMutex);
 		updateScreen();
@@ -1103,8 +1120,7 @@ void VarioScreen::ScreenViewStatPage(int PageStat)
 //****************************************************************************************************************************
 {
 	char tmpbuffer[100];
-
-	display.setFont(&FreeSans9pt7b);
+    display.setFont(&FreeSans9pt7b);
 	display.setTextColor(ColorText);
 	display.setTextSize(1);
 
@@ -1199,8 +1215,13 @@ void VarioScreen::ScreenViewWifi(String SSID, String IP)
 	{
 		if (xSemaphoreTake(screen.screenMutex, portMAX_DELAY) == pdTRUE)
 		{
+			#if (VARIOSCREEN_SIZE == 293)
+			display.init(0);
 			display.setFullWindow();
-
+			#else
+			display.setFullWindow();
+			#endif
+			
 			display.fillScreen(GxEPD_WHITE);
 			display.setFont(&FreeSansBold9pt7b);
 			display.setTextColor(ColorText);
@@ -1262,7 +1283,12 @@ void VarioScreen::ScreenViewReboot(String message)
 
 	if (xSemaphoreTake(screen.screenMutex, portMAX_DELAY) == pdTRUE)
 	{
-		display.setFullWindow();
+		#if (VARIOSCREEN_SIZE == 293)
+			display.init(0);
+			display.setFullWindow();
+			#else
+			display.setFullWindow();
+			#endif
 		display.fillScreen(GxEPD_WHITE);
 		// 	  display.fillScreen(ColorScreen);
 		//		display.clearScreen(ColorScreen);
@@ -1299,7 +1325,12 @@ void VarioScreen::ScreenViewMessage(String message, int delai)
 
 	if (xSemaphoreTake(screen.screenMutex, portMAX_DELAY) == pdTRUE)
 	{
-		display.setFullWindow();
+		#if (VARIOSCREEN_SIZE == 293)
+			display.init(0);
+			display.setFullWindow();
+			#else
+			display.setFullWindow();
+			#endif
 		display.fillScreen(GxEPD_WHITE);
 		// 	  display.fillScreen(ColorScreen);
 		//		display.clearScreen(ColorScreen);
@@ -2000,7 +2031,12 @@ void ScreenScheduler::setPage(int8_t page, boolean forceUpdate)
 	{
 		if (xSemaphoreTake(screen.screenMutex, portMAX_DELAY) == pdTRUE)
 		{
+			#if (VARIOSCREEN_SIZE == 293)
+			display.init(0);
 			display.setFullWindow();
+			#else
+			display.setFullWindow();
+			#endif
 			display.fillScreen(ColorScreen);
 			displayStat = true;
 			screen.SetViewSound(toneHAL.getVolume());
@@ -2011,13 +2047,24 @@ void ScreenScheduler::setPage(int8_t page, boolean forceUpdate)
 	else if ((currentPage == endPage + 2) && (displayStat))
 	{
 		displayStat = false;
-		screen.ScreenViewStat();
+		#if (VARIOSCREEN_SIZE == 293)
+			display.init(0);
+			screen.ScreenViewStat();
+			#else
+			screen.ScreenViewStat();
+			#endif
+		
 	}
 	else
 	{
 		if (xSemaphoreTake(screen.screenMutex, portMAX_DELAY) == pdTRUE)
 		{
+			#if (VARIOSCREEN_SIZE == 293)
+			display.init(0);
 			display.setFullWindow();
+			#else
+			display.setFullWindow();
+			#endif
 			display.fillScreen(ColorScreen);
 			displayStat = true;
 			for (uint8_t i = 0; i < objectCount; i++)

@@ -57,6 +57,7 @@
  *    1.1.8  19/10/20   Ajout ScreenViewBattery(boolean clear)                   *
  *    1.1.10 19/12/20   Modification affichage des titres P. FRANCIA             *
  *    1.2.11 10/02/20   Compatibilité écran 291 et 293                           *
+ *    1.2.12 13/05/21   Compatibilité écran GDEW029M06 seulement                 *
  *                                                                               *
  *********************************************************************************/
 
@@ -336,7 +337,7 @@ extern volatile uint8_t stateDisplay;
 #if (VARIOSCREEN_SIZE == 291)
 extern GxEPD2_BW<GxEPD2_290, GxEPD2_290::HEIGHT> display;
 #else
-extern GxEPD2_BW<GxEPD2_290_T94, GxEPD2_290_T94::HEIGHT> display;
+extern GxEPD2_BW<GxEPD2_290_M06, GxEPD2_290_M06::HEIGHT> display;
 #endif 
 
 #endif
