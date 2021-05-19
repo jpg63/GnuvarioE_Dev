@@ -243,18 +243,18 @@ bool VarioWifi::checkDbVersion()
         String tmpFullName = entry.name();
         String version = tmpFullName.substring(tmpFullName.lastIndexOf("/") + 1);
         version = version.substring(0, version.lastIndexOf("."));
-        
-        #ifdef MEMORY_DEBUG
+
+#ifdef MEMORY_DEBUG
         Serial.println("avant migration");
         Serial.println(ESP.getFreeHeap());
-        #endif
+#endif
 
         varioSqlFlight.executeMigration(version, entry.readString());
-        
-        #ifdef MEMORY_DEBUG
+
+#ifdef MEMORY_DEBUG
         Serial.println("apres migration");
         Serial.println(ESP.getFreeHeap());
-        #endif
+#endif
 
 #ifdef WIFI_DEBUG
         SerialPort.println(version);
@@ -468,6 +468,11 @@ void VarioWifi::startWebServer()
     // suppression d'un site
     server.on("/site", HTTP_DELETE, [](AsyncWebServerRequest *request) {
         request->send(varioWebHandler.handleDelSite(request));
+    });
+
+    // récupération du résumé des vols
+    server.on("/flightsshort", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(varioWebHandler.getFlightsShort(request));
     });
 
     //default web dir "/www"

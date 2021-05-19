@@ -417,8 +417,12 @@ static int ESP32Open(
 
 	strcpy(mode, "r");
   if( zName==0 ){
-    return SQLITE_IOERR;
+    zName = "/sd/temp";
+    remove(zName); 
   }
+  // if( zName==0 ){
+  //   return SQLITE_IOERR;
+  // }
 
   if( flags&SQLITE_OPEN_MAIN_JOURNAL ){
     aBuf = (char *)sqlite3_malloc(SQLITE_ESP32VFS_BUFFERSZ);
