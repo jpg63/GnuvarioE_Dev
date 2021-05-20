@@ -1127,7 +1127,7 @@ void VarioScreen::ScreenViewStatPage(int PageStat)
 	SerialPort.println("");
 #endif //SCREEN_DEBUG
 
-	sprintf(tmpbuffer, "Date: %02d.%02d.%02d", tmpDate[0], tmpDate[1], tmpDate[2]);
+	sprintf(tmpbuffer, "Date : %02d.%02d.%02d", tmpDate[0], tmpDate[1], tmpDate[2]);
 	display.setCursor(0, 40);
 	display.print(tmpbuffer);
 
@@ -1145,7 +1145,7 @@ void VarioScreen::ScreenViewStatPage(int PageStat)
 #endif //SCREEN_DEBUG
 
 	varioData.flystat.GetDuration(tmpTime);
-	sprintf(tmpbuffer, "%s: %02d:%02d", varioLanguage.getText(TITRE_DUREE), tmpTime[2], tmpTime[1]);
+	sprintf(tmpbuffer, "%s : %02d:%02d", varioLanguage.getText(TITRE_STAT_DUREE), tmpTime[2], tmpTime[1]);
 	display.setCursor(0, 90);
 	display.print(tmpbuffer);
 
@@ -1156,7 +1156,7 @@ void VarioScreen::ScreenViewStatPage(int PageStat)
 	double tmpAlti = varioData.flystat.GetAlti();
 	if (tmpAlti > 9999)
 		tmpAlti = 9999;
-	sprintf(tmpbuffer, "Alti Max: %3.0f", tmpAlti);
+	sprintf(tmpbuffer, "Alti Max : %3.0f", tmpAlti);
 	display.setCursor(0, 115);
 	display.print(tmpbuffer);
 
@@ -1165,7 +1165,7 @@ void VarioScreen::ScreenViewStatPage(int PageStat)
 		tmpVarioMin = 9.9;
 	if (tmpVarioMin < -10)
 		tmpVarioMin = -9.9;
-	sprintf(tmpbuffer, "Vario Min: %1.1f", tmpVarioMin);
+	sprintf(tmpbuffer, "Vario Min : %1.1f", tmpVarioMin);
 	display.setCursor(0, 140);
 	display.print(tmpbuffer);
 
@@ -1174,14 +1174,14 @@ void VarioScreen::ScreenViewStatPage(int PageStat)
 		tmpVarioMax = 9.9;
 	if (tmpVarioMax < -10)
 		tmpVarioMax = -9.9;
-	sprintf(tmpbuffer, "Vario Max: %1.1f", tmpVarioMax);
+	sprintf(tmpbuffer, "Vario Max : %1.1f", tmpVarioMax);
 	display.setCursor(0, 165);
 	display.print(tmpbuffer);
 
 	double tmpSpeed = varioData.flystat.GetSpeed();
 	if (tmpSpeed > 1000)
 		tmpSpeed = 999;
-	sprintf(tmpbuffer, "%s: %3.0f", varioLanguage.getText(TITRE_SPEED), tmpSpeed); //%02d.%02d.%02d", tmpDate[0],tmpDate[1],tmpDate[2]);
+	sprintf(tmpbuffer, "%s : %3.0f", varioLanguage.getText(TITRE_STAT_SPEED), tmpSpeed); //%02d.%02d.%02d", tmpDate[0],tmpDate[1],tmpDate[2]);
 	display.setCursor(0, 190);
 	display.print(tmpbuffer);
 	display.drawLine(0, 20, 128, 20, GxEPD_BLACK);
