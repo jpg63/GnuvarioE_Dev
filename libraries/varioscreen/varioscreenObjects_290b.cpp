@@ -40,7 +40,7 @@
  *    1.0.11 23/08/19   Correction bug previousPage                              *
  *                      Ajout TUnit                                              *
  *    1.0.12 24/08/19   Ajout ScreenViewSound(int volume)                        *
- *		1.0.13 25/08/19		Gestion de l'écran de config du son					 *	
+ *	  1.0.13 25/08/19	Gestion de l'écran de config du son					     *	
  *    1.0.14 23/09/19   Modification page stat                                   *
  *                      Modification de l'affichage de la charge de la betterie  *
  *                      Ajout d'un deep-sleep en cas de batterie trop faible     *
@@ -68,8 +68,8 @@
  *    1.2.1  10/05/20   Correction scrrentime                                    *
  *    1.2.2  17/05/20   Ajout setPositionTitle                                   *
  *    1.2.3  25/05/20   Modification screendigit.setvalue                        *
- *    1.2.4  10/02/20   Compatibilité écran 291 et 293                           *
- *                      Compatibilité écran 290 et 292                           *
+ *    1.2.4  10/02/21   Compatibilité écran 290 et 292                           *
+ *                                                                               *
  *                                                                               *
  *********************************************************************************/ 
 

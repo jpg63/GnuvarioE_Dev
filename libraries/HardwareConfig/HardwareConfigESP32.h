@@ -24,16 +24,19 @@
 /*                                                                               */
 /*  version    Date     Description                                              */
 /*    1.0    03/06/19                                                            */
-/*    1.0.1  24/06/19   Ajout define VARIOMETER_POWER_ON_DELAY 									 */
+/*    1.0.1  24/06/19   Ajout define VARIOMETER_POWER_ON_DELAY 		    */
 /*    1.0.2  19/08/19   Correstions mineures                                     */
 /*    1.0.3  20/08/19   Ajout version PCB  PCB_VERSION                           */
-/*    1.0.4  30/08/19   Ajout AUDIO_AMP_MODE_LOW, AUDIO_AMPLI_LOWPOWER		  		 */
-/*    1.0.5  10/09/19   Ajout VARIO_SDA_PIN, VARIO_SCL_PIN 											 */
-/*		1.0.6	 19/09/19   Modification parametrage en fonction des PCBs            */
+/*    1.0.4  30/08/19   Ajout AUDIO_AMP_MODE_LOW, AUDIO_AMPLI_LOWPOWER	    */
+/*    1.0.5  10/09/19   Ajout VARIO_SDA_PIN, VARIO_SCL_PIN 			    */
+/*    1.0.6	 19/09/19   Modification parametrage en fonction des PCBs          */
 /*    1.0.7  06/10/19   Deplacement resolution d'ecran dans hardwareConfig.h     */
 /*    1.0.8  27/06/20   Ajoit gestion I2S                                        */
 /*    1.0.9  05/10/20   Ajout PCB V3                                             */
 /*    1.0.10 14/12/20   Ajout PCB V35                                            */
+/*    1.0.11 22/05/21   Ajout écran 294 (DKEG0290BNS800F6 /QYEG0290BNS800F6C02)  */
+/*                      Pour test                                                */
+/*                      & Ajout écran 2.9" Good Display GDEW029M06               */
 /*                                                                               */
 /*********************************************************************************/
 
@@ -141,9 +144,9 @@ Fly stat        0xD0		26+2
 
 #if (VARIOVERSION == 154) 
 #define PCB_VERSION 1
-#elif ((VARIOVERSION == 290) || (VARIOVERSION == 291) || (VARIOVERSION == 254) || (VARIOVERSION == 292) || (VARIOVERSION == 293)) 
+#elif ((VARIOVERSION == 290) || (VARIOVERSION == 291) || (VARIOVERSION == 254) || (VARIOVERSION == 292) || (VARIOVERSION == 293) || (VARIOVERSION == 294)) 
 #define PCB_VERSION 2
-#elif ((VARIOVERSION == 354) || (VARIOVERSION == 390) || (VARIOVERSION == 391)) 
+#elif ((VARIOVERSION == 354) || (VARIOVERSION == 390) || (VARIOVERSION == 391) || (VARIOVERSION == 393) || (VARIOVERSION == 394)) 
 #define PCB_VERSION 3
 #elif ((VARIOVERSION == 395) || (VARIOVERSION == 396)) 
 #define PCB_VERSION 35

@@ -31,17 +31,17 @@
  *    1.0.2  06/10/19   Mise à jour ratamuse                                     *
  *    1.0.3  13/10/19   Integration au GnuVario                                  *
  *                      Ajout wind                                               *
- *    1.0.4  16/11/19   Modif updateScreen										 									 *    
- *		1.0.5	 11/01/20		Modif ScreenViewPage							 											 *
+ *    1.0.4  16/11/19   Modif updateScreen										 *    
+ *		1.0.5	 11/01/20		Modif ScreenViewPage							 *
  *                      VARIOSCREEN_SIZE == 290                                  *
- *    1.0.6  17/01/20   Desactivation effacement ligne 1534						 					 *
+ *    1.0.6  17/01/20   Desactivation effacement ligne 1534						 *
  *    1.0.7  18/01/20   Modif  ScreenViewMessage                                 *
  *    1.0.8  28/01/20   Modification écran 1 - ajout info gps                    *
  *    1.0.9  03/02/20   changement de nom passage de 29 à 290                    *
  *    1.0.10 09/02/20   Modif écran 1 - font normal / coordonné GPS en degrés    *
  *    1.0.11 17/02/20   Ajout 2.90 et 2.91                                       *
  *                      Ajout FONTLARGE / FONTNORMAL                             *
- *    1.0.11 25/02/20   Ajout ScreenBackground									 								 *	
+ *    1.0.11 25/02/20   Ajout ScreenBackground									 *	
  *    1.0.12 04/03/20   Réorganisation de l'affichage des variable               *  
  *    1.0.13 04/03/20   Ajout affichage alti agl                                 *
  *    1.0.14 07/03/20   Correction xSemaphore                                    *
@@ -51,14 +51,14 @@
  *    1.1.1  10/05/20   Correction affichage screenTime (:/h)                    *
  *    1.1.2  11/05/20   Effacement zones multi                                   *
  *    1.1.3  17/05/20   Ajout position titre avac setPositionTitle               *
- *		1.1.4  23/05/20   Passage vario en -XX.X								 									 * 								 
- *		1.1.5  23/05/20   Passage vario en -XX.X								 								   *								 
+ *		1.1.4  23/05/20   Passage vario en -XX.X								 * 								 
+ *		1.1.5  23/05/20   Passage vario en -XX.X								 *								 
  *    1.1.6  27/07/20   Affichage de la batterie au démarrage                    *
- *    1.1.7  19/10/20   Ajout ScreenViewBattery(boolean clear)					 				 *
- *    1.1.8 19/12/20    Modification affichage des titres P. FRANCIA  			 	   *
- *    1.1.9  10/02/20   Compatibilité écran 291 et 293                           *
- *                      Compatibilité écran 290 et 292                           *
- *																			     																		 *
+ *    1.1.7  19/10/20   Ajout ScreenViewBattery(boolean clear)					 *
+ *    1.1.8 19/12/20    Modification affichage des titres P. FRANCIA  			 *
+ *    1.1.9  10/02/21   Compatibilité écran 290 et 292                           *
+ *    1.1.10 13/05/21   Compatibilité écran 292 (GDEW029M06)                     *
+ *         																		 *
  *********************************************************************************/
  
  /*
@@ -80,6 +80,7 @@
 
 #include <varioscreenGxEPD_290b.h>
 #include <Arduino.h>
+//#endif
 
 #if defined(ESP32)
 //static const char* TAG = "VarioScreen";
@@ -942,9 +943,13 @@ void VarioScreen::ScreenViewPage(int8_t page, boolean clear, boolean refresh)
 #ifdef SCREEN_DEBUG
 	SerialPort.println("setTextColor");	
 #endif //SCREEN_DEBUG
+
+#if (VARIOSCREEN_SIZE == 292)
+    display.init(0);
+#endif
 	display.clearScreen(ColorScreen);
-  display.fillScreen(ColorScreen);
-  display.setTextColor(GxEPD_BLACK);//display.setTextColor(GxEPD_BLACK);
+	display.fillScreen(ColorScreen);
+	display.setTextColor(GxEPD_BLACK);
 	
 #ifdef SCREEN_DEBUG
 	SerialPort.println("update");	
@@ -1049,10 +1054,15 @@ void VarioScreen::ScreenViewStat(void)
 //****************************************************************************************************************************
 {
 	delay(100);
+
+  #if (VARIOSCREEN_SIZE == 292)
+  display.init(0);
+  #endif	
   display.setFullWindow();
   display.clearScreen(ColorScreen);
   display.fillScreen(ColorScreen);
   display.firstPage();
+  
   do
   {
 // 	  display.fillScreen(ColorScreen);
@@ -1183,6 +1193,9 @@ void VarioScreen::ScreenViewWifi(String SSID, String IP)
 //  char tmpbuffer[100];
 	
 	if ((SSID == "") && (IP == "")) {
+		#if (VARIOSCREEN_SIZE == 292)
+			display.init(0);
+		#endif
 		display.setFullWindow();
 		display.firstPage();
 		do
@@ -1239,9 +1252,13 @@ void VarioScreen::ScreenViewReboot(String message)
 //****************************************************************************************************************************
 {
 //  char tmpbuffer[100];
-	
+
+  #if (VARIOSCREEN_SIZE == 292)
+  display.init(0);
+  #endif
   display.setFullWindow();
   display.firstPage();
+  
   do
   {
 // 	  display.fillScreen(ColorScreen);
@@ -1275,7 +1292,10 @@ void VarioScreen::ScreenViewMessage(String message, int delai)
 //****************************************************************************************************************************
 {
 //  char tmpbuffer[100];
-	
+
+	#if (VARIOSCREEN_SIZE == 292)
+	display.init(0);
+	#endif
   display.setFullWindow();
   display.firstPage();
   do
@@ -1983,10 +2003,18 @@ void ScreenScheduler::setPage(int8_t page, boolean forceUpdate)  {
   display.fillRect(0, 0, display.width(), display.height(), GxEPD_WHITE);
 
 	if (currentPage == endPage+1) {
+
+
+		#if (VARIOSCREEN_SIZE == 292)
+        display.init(0);
+		#endif
 		displayStat = true;
 		screen.SetViewSound(toneHAL.getVolume());
 
 	} else if ((currentPage == endPage+2) && (displayStat)) {
+		#if (VARIOSCREEN_SIZE == 292)
+        display.init(0);
+		#endif
 		displayStat = false;
 		screen.ScreenViewStatPage(0);
 		screen.updateScreen ();
@@ -1994,6 +2022,9 @@ void ScreenScheduler::setPage(int8_t page, boolean forceUpdate)  {
 	} else {
 		/* all the page object need to be redisplayed */
 		/* but no problem to reset all the objects */
+		#if (VARIOSCREEN_SIZE == 292)
+        display.init(0);
+		#endif
 		displayStat = true;
 		for(uint8_t i = 0; i<objectCount; i++) {
 			displayList[i].object->reset();
