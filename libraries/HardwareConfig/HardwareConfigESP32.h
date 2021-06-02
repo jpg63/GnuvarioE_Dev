@@ -29,7 +29,7 @@
 /*    1.0.3  20/08/19   Ajout version PCB  PCB_VERSION                           */
 /*    1.0.4  30/08/19   Ajout AUDIO_AMP_MODE_LOW, AUDIO_AMPLI_LOWPOWER	    */
 /*    1.0.5  10/09/19   Ajout VARIO_SDA_PIN, VARIO_SCL_PIN 			    */
-/*    1.0.6	 19/09/19   Modification parametrage en fonction des PCBs          */
+/*    1.0.6  19/09/19   Modification parametrage en fonction des PCBs            */
 /*    1.0.7  06/10/19   Deplacement resolution d'ecran dans hardwareConfig.h     */
 /*    1.0.8  27/06/20   Ajoit gestion I2S                                        */
 /*    1.0.9  05/10/20   Ajout PCB V3                                             */

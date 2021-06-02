@@ -32,7 +32,7 @@
  *    1.0.3  13/10/19   Integration au GnuVario                                  *
  *                      Ajout wind                                               *
  *    1.0.4  16/11/19   Modif updateScreen										 *    
- *	  1.0.5	 11/01/20		Modif ScreenViewPage						     	 *
+ *	  1.0.5	 11/01/20	Modif ScreenViewPage     						     	 *
  *                      VARIOSCREEN_SIZE == 290                                  *
  *    1.0.6  17/01/20   Desactivation effacement ligne 1534						 *
  *    1.0.7  18/01/20   Modif  ScreenViewMessage                                 *
@@ -52,7 +52,7 @@
  *    1.1.2  11/05/20   Effacement zones multi                                   *
  *    1.1.3  14/05/20   Raffraichissement de l'écran toutes les 15min            *
  *    1.1.4  17/05/20   Ajout position titre avac setPositionTitle               *
- *		1.1.5  23/05/20   Passage vario en -XX.X								 *
+ *	  1.1.5  23/05/20   Passage vario en -XX.X	     							 *
  *    1.1.6  27/07/20   Affichage de la batterie au démarrage                    *
  *    1.1.7  04/10/20   Modification position finesse                            *
  *                      Modification position titre finesse                      *
@@ -308,7 +308,7 @@ VarioScreen::~VarioScreen()
 	free(schedulerScreen);
 }
 
-#define ITEMS_IN_ARRAY(array) (sizeof(array) / sizeof(*array))
+#define ITEMS_IN_ARRAY(array)  (sizeof(array) / sizeof(*array))
 
 //****************************************************************************************************************************
 void VarioScreen::init(void)
@@ -333,6 +333,8 @@ void VarioScreen::init(void)
 	SerialPort.println("setTextColor");
 #endif //SCREEN_DEBUG
 
+  display.setTextColor(GxEPD_BLACK);
+
 	screenMutex = xSemaphoreCreateBinary();
 	xSemaphoreGive(screenMutex);
 
@@ -340,7 +342,8 @@ void VarioScreen::init(void)
 	SerialPort.println("int : Give");
 #endif //SCREEN_DEBUG
 
-	xTaskCreatePinnedToCore(screenTask, "TaskDisplay", SCREEN_STACK_SIZE, NULL, SCREEN_PRIORITY, &screenTaskHandler, SCREEN_CORE);
+	xTaskCreatePinnedToCore(screenTask, "TaskDisplay", SCREEN_STACK_SIZE, NULL, SCREEN_PRIORITY, &screenTaskHandler,SCREEN_CORE);
+
 }
 
 //****************************************************************************************************************************
@@ -353,6 +356,7 @@ void VarioScreen::createScreenObjects(void)
 #endif //SCREEN_DEBUG
 
 	/* création des champs d'affichage */
+
 
 	//	ScreenDigit tensionDigit(TENSION_DISPLAY_POSX /*VARIOSCREEN_TENSION_ANCHOR_X*/, VARIOSCREEN_TENSION_ANCHOR_Y, 5, 2, false, false, ALIGNRIGHT);
 
@@ -622,7 +626,7 @@ void VarioScreen::begin(void)
 #endif //SCREEN_DEBUG
 
 	//	schedulerScreen = new ScreenScheduler(displayList, ITEMS_IN_ARRAY(displayList) -1, 0, 0);   //ITEMS_IN_ARRAY(displayList), 0, 0);
-	schedulerScreen = new ScreenScheduler(displayList, MaxObjectList - 1, 0, 1); //ITEMS_IN_ARRAY(displayList), 0, 0);
+	schedulerScreen = new ScreenScheduler(displayList, MaxObjectList -1, 0, 1);  //ITEMS_IN_ARRAY(displayList), 0, 0);
 
 	// schedulerScreen->setPage(0, false);
 	// stateDisplay = STATE_OK;
@@ -1148,7 +1152,7 @@ void VarioScreen::ScreenViewStatPage(int PageStat)
 #endif //SCREEN_DEBUG
 
 	varioData.flystat.GetTime(tmpTime);
-	sprintf(tmpbuffer, "%s: %02d:%02d", varioLanguage.getText(TITRE_TIME), tmpTime[2], tmpTime[1]);
+	sprintf(tmpbuffer, "%s : %02d:%02d", varioLanguage.getText(TITRE_TIME), tmpTime[2], tmpTime[1]);
 	display.setCursor(0, 65);
 	display.print(tmpbuffer);
 
@@ -1889,9 +1893,9 @@ boolean ScreenScheduler::displayStep(void)
 
 			#if (VARIOSCREEN_SIZE == 293)
     		display.init(0);
-			#else	
-			display.clearScreen();
 			#endif
+			display.clearScreen();
+			
 
 #ifdef SCREEN_DEBUG2
 			SerialPort.println("displaystep - showDisplayAll");

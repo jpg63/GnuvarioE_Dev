@@ -49,12 +49,11 @@
  *    1.1.3  17/05/20   Ajout position titre avac setPositionTitle               *
  *	  1.1.4  23/05/20   Passage vario en -XX.X								     *
  *	  1.1.5  23/05/20   Passage vario en -XX.X								     *
- *    1.1.6  27/07/20    Affichage de la batterie au démarrage                   *
- *    1.1.7  19/10/20    Ajout ScreenViewBattery(boolean clear)                  *
- *    1.1.8  19/12/20    Modification affichage des titres P. FRANCIA            *
+ *    1.1.6  27/07/20   Affichage de la batterie au démarrage                    *
+ *    1.1.7  19/10/20   Ajout ScreenViewBattery(boolean clear)                   *
+ *    1.1.8  19/12/20   Modification affichage des titres P. FRANCIA             *
  *    1.1.9  10/02/21   Compatibilité écran 290 et 292                           *
- *                                                                               *
- *    1.1.10 13/05/21   Compatibilité écran 292 (GDEW029M06)                     *
+ *    1.1.10 13/05/21   Compatibilité écran 292 (GDEW029M06)                     * 
  *                                                                               *
  *********************************************************************************/
 
