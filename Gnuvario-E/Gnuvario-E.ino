@@ -319,6 +319,7 @@
 *                12/04/21            Ajout Mute jusqu'au décollage                                    *
 *                22/05/21            Ajout écran 294 (DKEG0290BNS800F6 /QYEG0290BNS800F6C02) pour test*
 *                                    & Ajout écran 2.9" Good Display GDEW029M06                       *
+*                03/06/21            Correction bug maj web - ajout d'un reboot                       *
 *******************************************************************************************************
 *                                                                                                     *
 *                                   Developpement a venir                                             *
@@ -930,6 +931,11 @@ void setup()
     beeper.generateTone(659, 150);
     beeper.generateTone(1318, 150);
     beeper.generateTone(2636, 150);
+
+    SerialPort.println("RESTART ESP32");
+    SerialPort.flush();
+    ESP_LOGI("GnuVario-E", "RESTART ESP32");
+    ESP.restart();    
   } 
   
 #endif //HAVE_SDCARD
