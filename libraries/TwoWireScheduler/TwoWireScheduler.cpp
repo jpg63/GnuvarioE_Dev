@@ -545,10 +545,28 @@ void TWScheduler::getRawAccel(int16_t *rawAccel, int32_t *quat)
   fastMPUCheckTap(tap);
 
   /* change of basis */
+#if ((VARIOVERSION == 254) || (VARIOVERSION == 291) || (VARIOVERSION == 293) || (VARIOVERSION == 294))
+  //portrait
   rawAccel[0] = -rawAccel[0];
   rawAccel[1] = -rawAccel[1];
   quat[1] = -quat[1];
   quat[2] = -quat[2];
+#elif ((VARIOVERSION == 290) || (VARIOVERSION == 292))
+  //paysage
+  int16_t tmpValAccel = rawAccel[0];
+  int32_t tmpValQuat = quat[1];
+  rawAccel[0] = rawAccel[1];
+  rawAccel[1] = -tmpValAccel;
+  quat[1] = quat[2];
+  quat[2] = -tmpValQuat;
+#elif ((VARIOVERSION == 354) || (VARIOVERSION == 390) || (VARIOVERSION == 391) || (VARIOVERSION == 395) || (VARIOVERSION == 396))
+  rawAccel[0] = -rawAccel[0];
+  rawAccel[1] = rawAccel[1];
+  rawAccel[2] = -rawAccel[2];
+  quat[1] = -quat[1];
+  quat[2] = quat[2];
+  quat[3] = -quat[3];
+#endif
 }
 
 double TWScheduler::getAccel(double *vertVector)
@@ -775,9 +793,21 @@ void TWScheduler::getRawMag(int16_t *rawMag)
     }
   }
 
-  /* change of basis */
+/* change of basis */
+#if ((VARIOVERSION == 254) || (VARIOVERSION == 291) || (VARIOVERSION == 293) || (VARIOVERSION == 294))
+  //portrait
   rawMag[0] = -rawMag[0];
   rawMag[1] = -rawMag[1];
+#elif ((VARIOVERSION == 290) || (VARIOVERSION == 292))
+  //paysage
+  int16_t tmpValMag = rawMag[0];
+  rawMag[0] = rawMag[1];
+  rawMag[1] = -tmpValMag;
+#elif ((VARIOVERSION == 354) || (VARIOVERSION == 390) || (VARIOVERSION == 391) || (VARIOVERSION == 395) || (VARIOVERSION == 396))
+rawMag[0] = -rawMag[0];
+rawMag[1] = rawMag[1];
+rawMag[2] = -rawMag[2];
+#endif
 }
 
 void TWScheduler::getNorthVector(double *vertVector, double *northVector)
