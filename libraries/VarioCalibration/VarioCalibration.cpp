@@ -120,9 +120,9 @@ void VarioCalibration::startMeasure(void) {
     delay(100);
   }
  
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
   SerialPort.println("init Var");
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
 
   /* init vars */
   measureTimestamp = millis();
@@ -177,9 +177,9 @@ void VarioCalibration::makeMeasureStep(void) {
   int32_t quat[4];
   if( readRawAccel(accel, quat) ) {
 
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
     SerialPort.println("makeMeasureStep : readRawAccel OK");
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
 
     accelCount++;
     for( int i = 0; i<3; i++) {
@@ -187,12 +187,12 @@ void VarioCalibration::makeMeasureStep(void) {
       accelMean[i] += (double)accel[i];
       accelSD[i]   += ((double)accel[i])*((double)accel[i]);
 
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
       SerialPort.print("accelMean : ");
       SerialPort.println( accelMean[i]);
       SerialPort.print("accelSD : ");
       SerialPort.println( accelSD[i]);
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
 
     }
   }
@@ -201,21 +201,21 @@ void VarioCalibration::makeMeasureStep(void) {
   /* mag */
   int16_t mag[3];
   if( readRawMag(mag) ) {
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
     SerialPort.println("makeMeasureStep : readRawMag OK");
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
 
    magCount++;
     for( int i = 0; i<3; i++) {
       magMean[i] += (double)mag[i];
       magSD[i] += ((double)mag[i])*((double)mag[i]);
 
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
       SerialPort.print("magMean : ");
       SerialPort.println( magMean[i]);
       SerialPort.print("magSD : ");
       SerialPort.println( magSD[i]);
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
       
     }
   }
@@ -228,9 +228,9 @@ double VarioCalibration::getAccelMeasure(int16_t* accelMeasure) {
 /*****************************/  
   double accelMeasureSD = 0.0; 
 
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
     SerialPort.println("GetAccelMeasure");
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
 
   for( int i = 0; i<3; i++) {
     accelMeasureSD += accelSD[i]/(double)accelCount;
@@ -238,10 +238,10 @@ double VarioCalibration::getAccelMeasure(int16_t* accelMeasure) {
     
     accelMeasure[i] = (int16_t)(accelMean[i]/(double)accelCount);
 
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
     SerialPort.print("accelMeasure : ");
     SerialPort.println(accelMeasure[i]);
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
     
   }
 
@@ -254,9 +254,9 @@ double VarioCalibration::getAccelMeasure(int16_t* accelMeasure) {
 double VarioCalibration::getMagMeasure(int16_t* magMeasure) {
 /*******************************/
 
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
     SerialPort.println("GetMagMeasure");
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
   
   double magMeasureSD = 0.0; 
     
@@ -265,10 +265,10 @@ double VarioCalibration::getMagMeasure(int16_t* magMeasure) {
     magMeasureSD -= (magMean[i]/(double)magCount) * (magMean[i]/(double)magCount);
     
     magMeasure[i] = (int16_t)(magMean[i]/(double)magCount);
- #ifdef IMU_DEBUG
+ #ifdef CAL_DEBUG
     SerialPort.print("magMeasure : ");
     SerialPort.println(magMeasure[i]);
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
  }
 
   return sqrt(magMeasureSD);
@@ -291,16 +291,16 @@ void VarioCalibration::Begin(void)
 	delay(5000);
 
   /* reset variables */
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
   SerialPort.println("Begin calibration");
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
   
   startMeasure();
   accelSDRecordTimestamp = millis();  
 
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
   SerialPort.println("Loop");
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
 
   while (1) {
 /*******************************/
@@ -320,21 +320,21 @@ void VarioCalibration::Begin(void)
 		/* first  wait */
 		if( recordInitState == RECORD_STATE_INITIAL ) {
 
-	#ifdef IMU_DEBUG
+	#ifdef CAL_DEBUG
 			 SerialPort.println("First Wait");
-	#endif //IMU_DEBUG
+	#endif //CAL_DEBUG
 
 			/* wait finished ? */
 			if( millis() - accelSDRecordTimestamp > ACCEL_SD_WAIT_DURATION ) {
 
 				/* start measure */
-	#ifdef IMU_DEBUG
+	#ifdef CAL_DEBUG
 				SerialPort.println("START MESURE");
-	#endif //IMU_DEBUG
+	#endif //CAL_DEBUG
 //	#ifdef MAKE_BEEP
-	#ifdef IMU_DEBUG
+	#ifdef CAL_DEBUG
 				SerialPort.println("BEEP");
-	#endif //IMU_DEBUG
+	#endif //CAL_DEBUG
 				toneHAL.enableAmpli();
 				toneHAL.tone(BEEP_START_FREQ, BEEP_VOLUME);
 				delay(BEEP_DURATION);
@@ -537,13 +537,13 @@ void VarioCalibration::Begin(void)
 						file.flush();
 	#endif //SDCARD_OUTPUT
 
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
 						SerialPort.println("WRITE DATA");
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
 //	#ifdef MAKE_BEEP
-#ifdef IMU_DEBUG
+#ifdef CAL_DEBUG
 						SerialPort.println("BEEP");
-#endif //IMU_DEBUG
+#endif //CAL_DEBUG
 						toneHAL.enableAmpli();
 //						beeper.generateTone(2000,300); 
 						toneHAL.tone(BEEP_RECORD_FREQ, BEEP_VOLUME);

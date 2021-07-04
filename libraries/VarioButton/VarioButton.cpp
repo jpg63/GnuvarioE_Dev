@@ -374,6 +374,7 @@ void VARIOButtonScheduleur::treatmentBtnB(bool Debounce)
 
 		if (screen.schedulerScreen->getPage() == screen.schedulerScreen->getMaxPage() + 1)
 		{
+      varioHardwareManager.varioSpeaker.UnMute();
 			StatePage = STATE_PAGE_CONFIG_SOUND;
 			RegVolume = beeper.getVolume(); //toneHAL.getVolume();
 			screen.SetViewSound(RegVolume);
@@ -397,10 +398,22 @@ void VARIOButtonScheduleur::treatmentBtnB(bool Debounce)
 		GnuSettings.soundSettingWrite(RegVolume);
 		screen.volLevel->setVolume(RegVolume);
 		screen.volLevel->mute(toneHAL.isMute());
+		
+		
+#ifdef HAVE_SPEAKER
+		if (GnuSettings.MUTE_VARIOBEGIN)
+		{
+			varioHardwareManager.varioSpeaker.Mute();
+		}
+#endif		
 	}
 	else if (StatePage == STATE_PAGE_CALIBRATION)
 	{
 		//lancement de la calibration
+		
+    varioHardwareManager.varioSpeaker.UnMute();
+ //   beeper.generateTone(GnuSettings.BEEP_FREQ, 200,10);
+		
 		StatePage = STATE_PAGE_CALIBRATE;
 		screen.ScreenViewMessage(varioLanguage.getText(TITRE_ENCOURS), 0); //"en cours", 0);
 		Calibration.Begin();
